@@ -24,9 +24,9 @@ var GameNode = cc.Layer.extend({
             this.preload_resources.push(folderGameResource+"bg.jpg");
             this.preload_resources.push(folderGameResource+"bg-3.png");
             this.preload_resources.push(folderGameResource+"fisherman.png");
-            // this.preload_resources.push(folderGameResource+"green-diamond.png");
-            // this.preload_resources.push(folderGameResource+"gold.png");
-            // this.preload_resources.push(folderGameResource+"ruby.png");
+            this.preload_resources.push(folderGameResource+"effect.png");
+            this.preload_resources.push(folderGameResource+"gold_coin.png");
+            this.preload_resources.push(folderGameResource+"fishing-rod.png");
             // this.preload_resources.push(folderGameResource+"board.png");
             // this.preload_resources.push(folderGameResource+"board2.png");
             // this.preload_resources.push(folderGameResource+"score-board.png");

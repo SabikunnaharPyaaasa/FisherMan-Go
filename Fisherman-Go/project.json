@@ -17,7 +17,6 @@
         "src/GameLayer/GameNodeScene.js",
         "src/GameLayer/GameHud.js",
         "src/GameLayer/GamePlay.js",
-        "src/GameLayer/GameStart.js",
         "src/GameLayer/GameEnd.js",
 
         "src/StoreLayer/StorePanel.js",
