@@ -21,14 +21,14 @@ var GameNode = cc.Layer.extend({
         if (this._super())
         {
             this.preload_resources=[];
-            this.preload_resources.push(folderGameResource+"bg.jpg");
-            this.preload_resources.push(folderGameResource+"bg-3.png");
+            this.preload_resources.push(folderGameResource+"sky.png");
+            this.preload_resources.push(folderGameResource+"bg.png");
             this.preload_resources.push(folderGameResource+"fisherman.png");
             this.preload_resources.push(folderGameResource+"effect.png");
             this.preload_resources.push(folderGameResource+"gold_coin.png");
             this.preload_resources.push(folderGameResource+"fishing-rod.png");
-            // this.preload_resources.push(folderGameResource+"board.png");
-            // this.preload_resources.push(folderGameResource+"board2.png");
+            this.preload_resources.push(folderGameResource+"awesome.png");
+            this.preload_resources.push(folderGameResource+"wow.png");
             // this.preload_resources.push(folderGameResource+"score-board.png");
             // this.preload_resources.push(folderGameResource+"cage.png");
             // this.preload_resources.push(folderGameResource+"yellow-spark.png");

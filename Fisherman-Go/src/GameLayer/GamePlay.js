@@ -3,8 +3,8 @@ var GamePlay = cc.Layer.extend({
     targetFish:0,
     level:[
         [
+            ["sky",0,0],
             ["bg",0,0],
-            ["bg-3",0,0],
             ["fisherman",200,10],
             ["fish-1"],
             ["fish-2"],
@@ -16,8 +16,8 @@ var GamePlay = cc.Layer.extend({
             [3]//target fish
         ],
         [
+            ["sky",0,0],
             ["bg",0,0],
-            ["bg-3",0,0],
             ["fisherman",200,10],
             ["fish-6"],
             ["fish-7"],
@@ -52,7 +52,7 @@ var GamePlay = cc.Layer.extend({
     {
         var appDelegate=AppDelegate.sharedApplication();
         var strBackground = this.level[appDelegate.gameLevel][0][0];
-        this.imgBackground=cc.Sprite.create(folderGameResource+strBackground+".jpg");
+        this.imgBackground=cc.Sprite.create(folderGameResource+strBackground+".png");
         this.imgBackground.setScaleX(cc.winSize.width/this.imgBackground.getContentSize().width);
         this.imgBackground.setScaleY(cc.winSize.height/this.imgBackground.getContentSize().height);
         this.imgBackground.setPosition(cc.winSize.width/2, cc.winSize.height/2);
@@ -63,8 +63,14 @@ var GamePlay = cc.Layer.extend({
         this.imgBackground2=cc.Sprite.create(folderGameResource+strBackground2+".png");
         this.imgBackground2.setScaleX(cc.winSize.width/this.imgBackground2.getContentSize().width);
         this.imgBackground2.setScaleY(cc.winSize.height/this.imgBackground2.getContentSize().height);
-        this.imgBackground2.setPosition(cc.winSize.width/2, -205*this.imgBackground.getScaleY());
+        this.imgBackground2.setPosition(cc.winSize.width/2, -800*appDelegate.deviceScaleFloat);
         this.addChild(this.imgBackground2);
+
+        this.imgBackground3=cc.Sprite.create(folderGameResource+strBackground2+".png");
+        this.imgBackground3.setScaleX(cc.winSize.width/this.imgBackground3.getContentSize().width);
+        this.imgBackground3.setScaleY(cc.winSize.height/this.imgBackground3.getContentSize().height);
+        this.imgBackground3.setPosition(cc.winSize.width/2, -2400*appDelegate.deviceScaleFloat);
+        this.addChild(this.imgBackground3);
         //
 
         var strTapToEffect=folderGameResource+"effect.png";
@@ -84,17 +90,19 @@ var GamePlay = cc.Layer.extend({
     },
     tapToFishingCallBack:function()
     {
+        var appDelegate=AppDelegate.sharedApplication();
         this.menuTapToFishing.runAction(cc.FadeOut.create(.2));
         this.lblTapToFishing.runAction(cc.FadeOut.create(.2));
         if(this.menuTapToFishing.getTag()==0)
         {
-            this.imgBackground.runAction(cc.Sequence.create(cc.delayTime(.2),cc.MoveBy.create(3,0,410*this.imgBackground.getScaleY())));
-            this.imgBackground2.runAction(cc.Sequence.create(cc.delayTime(.2),cc.MoveBy.create(3,0,410*this.imgBackground.getScaleY())));
-            this.imgFisherman.runAction(cc.Sequence.create(cc.delayTime(.2),cc.MoveBy.create(3,0,410*this.imgBackground.getScaleY())));
+            this.imgBackground.runAction(cc.Sequence.create(cc.delayTime(.2),cc.MoveBy.create(3,0,2000*this.imgBackground.getScaleY())));
+            this.imgBackground2.runAction(cc.Sequence.create(cc.delayTime(.2),cc.MoveBy.create(3,0,2000*this.imgBackground.getScaleY())));
+            this.imgBackground3.runAction(cc.Sequence.create(cc.delayTime(.2),cc.MoveBy.create(3,0,2000*this.imgBackground.getScaleY())));
+            this.imgFisherman.runAction(cc.Sequence.create(cc.delayTime(.2),cc.MoveBy.create(3,0,2000*this.imgBackground.getScaleY())));
             this.menuTapToFishing.setTag(1);
             this.loadAllFish();
             this.fishTargetlabel();  
-            this.runAction(cc.Sequence.create(cc.delayTime(.01),cc.CallFunc.create(this.loadFishingRod, this)));
+            this.runAction(cc.Sequence.create(cc.delayTime(1),cc.CallFunc.create(this.loadFishingRod, this)));
 
         }
     },
@@ -117,7 +125,7 @@ var GamePlay = cc.Layer.extend({
 
         this.lblFishTarget=new cc.LabelTTF(this.targetFish+"/"+this.level[appDelegate.gameLevel][10][0], "Arial");
         this.lblFishTarget.setFontSize(70);
-        this.lblFishTarget.setPosition(cc.winSize.width-40*this.imgBackground.getScaleY(),cc.winSize.height/2);
+        this.lblFishTarget.setPosition(cc.winSize.width-100*this.imgBackground.getScaleY(),cc.winSize.height/2);
         this.lblFishTarget.setColor(cc.color(0,0,0));
         this.addChild(this.lblFishTarget);
 
@@ -133,15 +141,20 @@ var GamePlay = cc.Layer.extend({
     loadFishingRod:function()
     {
         var appDelegate=AppDelegate.sharedApplication();
-        var strFishingRod = this.level[appDelegate.gameLevel][4][0];
-        this.imgFishingRod=cc.Sprite.create(folderGameResource+"fishing-rod.png");
-        this.imgFishingRod.setScale(appDelegate.deviceScaleFloat);
-        this.imgFishingRod.setPosition(cc.winSize.width/2+140*this.imgBackground.getScaleX(), cc.winSize.height/2+0*this.imgBackground.getScaleY());
-        this.imgFishingRod.setTag(1);
+        // var strFishingRod = this.level[appDelegate.gameLevel][4][0];
+        // this.imgFishingRod=cc.Sprite.create(folderGameResource+"fishing-rod.png");
+        // this.imgFishingRod.setScale(appDelegate.deviceScaleFloat);
+        // this.imgFishingRod.setPosition(cc.winSize.width/2+140*this.imgBackground.getScaleX(), cc.winSize.height/2+0*this.imgBackground.getScaleY());
+        // this.imgFishingRod.setTag(1);
+        // this.addChild(this.imgFishingRod);
+        
+        
+        this.imgFishingRod=cc.Sprite.create(folderGameResource+"hook.png");
+        this.imgFishingRod.setScaleX(appDelegate.deviceScaleFloat*2);
+        this.imgFishingRod.setScaleY(appDelegate.deviceScaleFloat*2.5);
+        this.imgFishingRod.setPosition(cc.winSize.width/2+140*this.imgBackground.getScaleX(), cc.winSize.height/2+1000*this.imgBackground.getScaleY());
         this.addChild(this.imgFishingRod);
-        this.imgFishingRod.runAction(cc.MoveBy.create(1,0,500*appDelegate.deviceScaleFloat));
-        this.imgFishingRod.runAction(cc.ScaleTo.create(1,this.imgFishingRod.getScaleX(),this.imgFishingRod.getScaleY()*1.5));
-
+        this.imgFishingRod.runAction(cc.MoveBy.create(1,0,-300*appDelegate.deviceScaleFloat));
     },
     loadAllFish:function()
     {
@@ -152,12 +165,12 @@ var GamePlay = cc.Layer.extend({
             var strFish1 = this.level[appDelegate.gameLevel][3][0];
             this.imgFish1=cc.Sprite.create(folderGameProducts+strFish1+".png");
             this.imgFish1.setScale(appDelegate.deviceScaleFloat/6);
-            this.imgFish1.setPosition(cc.winSize.width+100*this.imgBackground.getScaleX()+i*70*this.imgBackground.getScaleX(), -240*this.imgBackground.getScaleY()+i*40*this.imgBackground.getScaleY());
+            this.imgFish1.setPosition(cc.winSize.width+100*this.imgBackground.getScaleX()+i*80*this.imgBackground.getScaleX(), -240*this.imgBackground.getScaleY()+i*130*this.imgBackground.getScaleY());
             this.imgFish1.setTag(1);
             this.addChild(this.imgFish1);
             this.allFish.push(this.imgFish1);
 
-            var move_action = cc.MoveBy.create(8,0,420*this.imgBackground.getScaleY());
+            var move_action = cc.MoveBy.create(8,0,660*this.imgBackground.getScaleY());
             this.imgFish1.runAction(move_action);
             var fish1_action1 = cc.MoveBy.create(8-i,-1050*this.imgBackground.getScaleX(),0);
             var fish1_action2 = cc.ScaleTo.create(.01,-this.imgFish1.getScaleX(),this.imgFish1.getScaleY())
@@ -176,7 +189,7 @@ var GamePlay = cc.Layer.extend({
         this.addChild(this.imgFish2);
         this.allFish.push(this.imgFish2);
 
-        var move_action = cc.MoveBy.create(10,0,350*this.imgBackground.getScaleY());
+        var move_action = cc.MoveBy.create(10,0,700*this.imgBackground.getScaleY());
         this.imgFish2.runAction(move_action);
         var fish2_action1 = cc.MoveBy.create(7,-950*this.imgBackground.getScaleX(),20);
         var fish2_action2 = cc.ScaleTo.create(.01,-this.imgFish2.getScaleX(),this.imgFish2.getScaleY())
@@ -194,7 +207,7 @@ var GamePlay = cc.Layer.extend({
         this.addChild(this.imgFish3);
         this.allFish.push(this.imgFish3);
 
-        var move_action = cc.MoveBy.create(10,0,320*this.imgBackground.getScaleY());
+        var move_action = cc.MoveBy.create(10,0,600*this.imgBackground.getScaleY());
         this.imgFish3.runAction(move_action);
         var fish3_action1 = cc.MoveBy.create(6,-1000*this.imgBackground.getScaleX(),20);
         var fish3_action2 = cc.ScaleTo.create(.01,-this.imgFish3.getScaleX(),this.imgFish3.getScaleY())
@@ -209,12 +222,12 @@ var GamePlay = cc.Layer.extend({
             var strFish4 = this.level[appDelegate.gameLevel][6][0];
             this.imgFish4=cc.Sprite.create(folderGameProducts+strFish4+".png");
             this.imgFish4.setScale(appDelegate.deviceScaleFloat/6);
-            this.imgFish4.setPosition(cc.winSize.width+160*this.imgBackground.getScaleX()+i*50, -160*this.imgBackground.getScaleY()+i*100);
+            this.imgFish4.setPosition(cc.winSize.width+160*this.imgBackground.getScaleX()+i*50, -160*this.imgBackground.getScaleY()+i*130);
             this.imgFish4.setTag(4);
             this.addChild(this.imgFish4);
             this.allFish.push(this.imgFish4);
 
-            var move_action = cc.MoveBy.create(11,0,300*this.imgBackground.getScaleY());
+            var move_action = cc.MoveBy.create(11,0,510*this.imgBackground.getScaleY());
             this.imgFish4.runAction(move_action);
             var fish4_action1 = cc.MoveBy.create(7+i,-1000*this.imgBackground.getScaleX(),20);
             var fish4_action2 = cc.ScaleTo.create(.01,-this.imgFish3.getScaleX(),this.imgFish3.getScaleY())
@@ -233,7 +246,7 @@ var GamePlay = cc.Layer.extend({
         this.addChild(this.imgFish5);
         this.allFish.push(this.imgFish5);
 
-        var move_action = cc.MoveBy.create(11,0,230*this.imgBackground.getScaleY());
+        var move_action = cc.MoveBy.create(11,0,630*this.imgBackground.getScaleY());
         this.imgFish5.runAction(move_action);
         var fish5_action1 = cc.MoveBy.create(6,-900*this.imgBackground.getScaleX(),20);
         var fish5_action2 = cc.ScaleTo.create(.01,-this.imgFish3.getScaleX(),this.imgFish3.getScaleY())
@@ -275,61 +288,92 @@ var GamePlay = cc.Layer.extend({
         var totalItem =0;
         console.log("Began");
         this.imgFishingRod.setPositionX(touch.getLocationX());
+        this.imgFishingRod.setPositionY(touch.getLocationY()+500*this.imgBackground.getScaleY());
         var appDelegate = AppDelegate.sharedApplication();
         for(var i=0;i<this.allFish.length;i++)
         {
             totalItem = totalItem+1;
             this.FishRect = this.allFish[i].getBoundingBox();
             this.startPoint = touch.getLocation();
+            
             if(cc.rectContainsPoint(this.FishRect, this.startPoint)) 
                 {
                     this.Fish = this.allFish[i];
                     cc.log(this.Fish.getTag());
-                    if(this.Fish.getTag()!=0)
-                    {
-                        this.targetFish = this.targetFish+1;
-                        this.lblFishTarget.setString(this.targetFish+"/"+this.level[appDelegate.gameLevel][10][0]);
-                        this.rewardNumber(this.Fish.getPositionX(),this.Fish.getPositionY());
-                        this.Fish.removeFromParent();
-                        this.catchFish(this.imgFishingRod.getPositionX(),this.imgFishingRod.getPositionY());
-                        this.Fish.setTag(0);
-                        
-                        if(this.targetFish==this.level[appDelegate.gameLevel][10][0])
-                        {
-                            this.imgBackground.runAction(cc.Sequence.create(cc.delayTime(.2),cc.MoveBy.create(3,0,-410*this.imgBackground.getScaleY())));
-                            this.imgBackground2.runAction(cc.Sequence.create(cc.delayTime(.2),cc.MoveBy.create(3,0,-410*this.imgBackground.getScaleY())));
-                            this.imgFisherman.runAction(cc.Sequence.create(cc.delayTime(.2),cc.MoveBy.create(3,0,-410*this.imgBackground.getScaleY())));
-                            for(var j=0;j<this.allFish.length;j++)
-                            {
-                                this.allFish[j].runAction(cc.MoveBy.create(2,0,-420*this.imgBackground.getScaleY()));
-                            }
-                            this.runAction(cc.Sequence.create(cc.delayTime(2),cc.CallFunc.create(this.gameOver, this)));
-                           
-                        }
-                    }
+                    this.fishTouch(touch);
+                    cc.log("p "+this.Fish.getPositionX());
                 } 
             
         }
-        cc.log("totalItem "+totalItem);
+        //cc.log("totalItem "+totalItem);
 		return true;
 	},
 	onTouchMoved:function(touch, event)
 	{
         console.log("Moved");
         this.imgFishingRod.setPositionX(touch.getLocationX());
+        this.imgFishingRod.setPositionY(touch.getLocationY()+500*this.imgBackground.getScaleY());
+        // var appDelegate = AppDelegate.sharedApplication();
+        // for(var i=0;i<this.allFish.length;i++)
+        // {
+        //     this.FishRect = this.allFish[i].getBoundingBox();
+        //     this.startPoint = touch.getLocation();
+        //     if(cc.rectContainsPoint(this.FishRect, this.startPoint)) 
+        //         {
+        //             this.Fish = this.allFish[i];
+        //             cc.log(this.Fish.getTag());
+        //             this.fishTouch();
+        //         } 
+            
+        // }
         
 	},
 	onTouchEnded:function(touch, event)
 	{
         console.log("Ended");
 	},
+    fishTouch:function(touch)
+    {
+        var appDelegate = AppDelegate.sharedApplication();
+        if(this.Fish.getTag()!=0)
+        {
+            this.targetFish = this.targetFish+1;
+            this.lblFishTarget.setString(this.targetFish+"/"+this.level[appDelegate.gameLevel][10][0]);
+            this.rewardNumber(this.Fish.getPositionX(),this.Fish.getPositionY());
+            this.Fish.removeFromParent();
+            this.catchFish(touch.getLocationX(),touch.getLocationY());
+            cc.log(touch.getLocationX(),touch.getLocationY());
+            this.Fish.setTag(0);
+            if(this.targetFish==this.level[appDelegate.gameLevel][10][0]-1)
+            {
+                var image = 1;
+                this.animation(this.Fish.getPosition(),image);
+            }
+            if(this.targetFish==this.level[appDelegate.gameLevel][10][0])
+            {
+                image =2;
+                this.animation(this.Fish.getPosition(),image);
+                this.imgBackground.runAction(cc.Sequence.create(cc.delayTime(.2),cc.MoveBy.create(3,0,-2000*this.imgBackground.getScaleY())));
+                this.imgBackground2.runAction(cc.Sequence.create(cc.delayTime(.2),cc.MoveBy.create(3,0,-2000*this.imgBackground.getScaleY())));
+                this.imgBackground3.runAction(cc.Sequence.create(cc.delayTime(.2),cc.MoveBy.create(3,0,-2000*this.imgBackground.getScaleY())));
+                this.imgFisherman.runAction(cc.Sequence.create(cc.delayTime(.2),cc.MoveBy.create(3,0,-2000*this.imgBackground.getScaleY())));
+                for(var j=0;j<this.allFish.length;j++)
+                {
+                    this.allFish[j].runAction(cc.MoveBy.create(2,0,-420*this.imgBackground.getScaleY()));
+                }
+                this.runAction(cc.Sequence.create(cc.delayTime(2),cc.CallFunc.create(this.gameOver, this)));
+               
+            }
+        }
+    },
     catchFish:function(x,y)
     {
        
         var appDelegate = AppDelegate.sharedApplication();
         this.imgCatchFish=cc.Sprite.create(folderGameProducts+this.level[appDelegate.gameLevel][3][0]+".png");
-        this.imgCatchFish.setScale(appDelegate.deviceScaleFloat/8);
-        this.imgCatchFish.setPosition(x-250*appDelegate.deviceScaleFloat,y-1350*appDelegate.deviceScaleFloat);
+        this.imgCatchFish.setScale(appDelegate.deviceScaleFloat/13);
+        //this.imgCatchFish.setPosition(x-100*this.imgBackground.getScaleX(),y-900*this.imgBackground.getScaleY());
+        this.imgCatchFish.setPosition(60,20);
         //this.imgFish.setTag(5);
         this.imgFishingRod.addChild(this.imgCatchFish);
         this.imgCatchFish.runAction(cc.RotateTo.create(.01,90));
@@ -338,7 +382,7 @@ var GamePlay = cc.Layer.extend({
     {
         var appDelegate=AppDelegate.sharedApplication();
 
-        this.lblrewardNumber=new cc.LabelTTF("+250");
+        this.lblrewardNumber=new cc.LabelTTF("+$250");
         this.lblrewardNumber.setFontSize(70);
         this.lblrewardNumber.setPosition(x,y);
         this.lblrewardNumber.setColor(cc.color(0,0,0));
@@ -347,6 +391,40 @@ var GamePlay = cc.Layer.extend({
         var action_2 = cc.FadeOut.create(.5);
         var sequence = cc.Sequence.create(action_1,action_2);
         this.lblrewardNumber.runAction(sequence);
+    },
+
+    animation:function(position,image)
+    {
+        switch(image){
+            case 1:
+                var appDelegate = AppDelegate.sharedApplication();
+                this.imgWow=cc.Sprite.create(folderGameResource+"wow.png");
+                this.imgWow.setScale(appDelegate.deviceScaleFloat/2);
+                this.imgWow.setPosition(position);
+                this.imgWow.setTag(1);
+                this.addChild(this.imgWow);   
+                var fade_action = cc.FadeIn.create(.1);
+                var scale_action = cc.ScaleTo.create(1,this.imgWow.getScaleX()*3,this.imgWow.getScaleY()*3);
+                var fade_out = cc.FadeOut.create(.3);
+                var sequence = cc.Sequence.create(fade_action,scale_action,fade_out)
+                this.imgWow.runAction(sequence); 
+            break;
+            case 2:
+                var appDelegate = AppDelegate.sharedApplication();
+                this.imgAwesome=cc.Sprite.create(folderGameResource+"awesome.png");
+                this.imgAwesome.setScale(appDelegate.deviceScaleFloat/2);
+                this.imgAwesome.setPosition(position);
+                this.imgAwesome.setTag(1);
+                this.addChild(this.imgAwesome);   
+                var fade_action = cc.FadeIn.create(.1);
+                var scale_action = cc.ScaleTo.create(1,this.imgAwesome.getScaleX()*3,this.imgAwesome.getScaleY()*3);
+                var fade_out = cc.FadeOut.create(.3);
+                var sequence = cc.Sequence.create(fade_action,scale_action,fade_out)
+                this.imgAwesome.runAction(sequence); 
+            break;
+
+            
+        }
     },
     
 

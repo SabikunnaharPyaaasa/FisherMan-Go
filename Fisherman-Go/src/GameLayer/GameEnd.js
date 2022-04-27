@@ -5,7 +5,7 @@ var GameEnd=cc.Layer.extend({
         if (this._super())
         {
             this.preload_resources=[];
-            this.preload_resources.push(folderGameResource+"bg.jpg");
+            this.preload_resources.push(folderGameResource+"sky.png");
             this.preload_resources.push(folderGameResource+"lock_box.png");
             this.preload_resources.push(folderGameResource+"coin_stock_box.png");
             this.preload_resources.push(folderGameResource+"victory.png");
@@ -47,7 +47,7 @@ var GameEnd=cc.Layer.extend({
     },
     setBackground:function()
     {
-        this.imgBackground=cc.Sprite.create(folderGameResource+"bg.jpg");
+        this.imgBackground=cc.Sprite.create(folderGameResource+"sky.png");
         this.imgBackground.setScaleX(cc.winSize.width/this.imgBackground.getContentSize().width);
         this.imgBackground.setScaleY(cc.winSize.height/this.imgBackground.getContentSize().height);
         this.imgBackground.setPosition(cc.winSize.width/2, cc.winSize.height/2);
@@ -97,7 +97,7 @@ var GameEnd=cc.Layer.extend({
         var appDelegate=AppDelegate.sharedApplication();
         this.imgVictory=cc.Sprite.create(folderGameResource+"victory.png");
         this.imgVictory.setScale(appDelegate.deviceScaleFloat/4);
-        this.imgVictory.setPosition(cc.winSize.width/2, cc.winSize.height/2+this.imgBackground.getScaleY()*100);
+        this.imgVictory.setPosition(cc.winSize.width/2, cc.winSize.height/2+this.imgBackground.getScaleY()*250);
         this.addChild(this.imgVictory,5);
         this.imgVictory_action = cc.ScaleTo.create(.6, this.imgVictory.getScaleX()-this.imgVictory.getScaleX()/4,this.imgVictory.getScaleY()-this.imgVictory.getScaleY()/4);
         this.imgVictory_action1 = cc.ScaleTo.create(.6, this.imgVictory.getScaleX(),this.imgVictory.getScaleY());
@@ -120,7 +120,7 @@ var GameEnd=cc.Layer.extend({
         this.imgGold.setScale(this.imgLockBox.getScale()/2);
         this.imgGold.setPosition(cc.winSize.width/2+i%2*this.imgGold.getScaleX()*5, cc.winSize.height/2-i%3*this.imgGold.getScaleY()*5);
         this.addChild(this.imgGold,2);
-        this.imgGold_action = cc.MoveBy.create(i*.2, cc.p(this.imgGoldCoin.getPositionX()-this.imgGoldCoin.getScaleX()*300,this.imgGoldCoin.getPositionY()-this.imgGoldCoin.getScaleY()*100));
+        this.imgGold_action = cc.MoveBy.create(i*.2, cc.p(this.imgGoldCoin.getPositionX()-this.imgGoldCoin.getScaleX()*450,this.imgGoldCoin.getPositionY()-this.imgGoldCoin.getScaleY()*80));
         this.imgGold_action1 = cc.FadeOut.create(.1);
         this.imgGold.runAction(cc.Sequence.create(this.imgGold_action,this.imgGold_action1));
         }
@@ -155,7 +155,7 @@ var GameEnd=cc.Layer.extend({
         this.btnNextLevel = new ccui.Button();
         this.btnNextLevel.loadTextures(strNextImage);
         this.btnNextLevel.setScale(appDelegate.deviceScaleFloat);
-        this.btnNextLevel.setPosition(this.imgCoinBox.getPositionX(), this.imgCoinBox.getPositionY()-this.imgBackground.getScaleY()*100);
+        this.btnNextLevel.setPosition(this.imgCoinBox.getPositionX(), this.imgCoinBox.getPositionY()-this.imgBackground.getScaleY()*300);
         this.btnNextLevel.addTouchEventListener(this.btnNextLevelCallBack,this);
         this.addChild(this.btnNextLevel,3);
 
@@ -179,15 +179,15 @@ var GameEnd=cc.Layer.extend({
         var appDelegate=AppDelegate.sharedApplication();
         if(appDelegate.gameLevel==0)
         {
-            this.lblrewardNumber=new cc.LabelTTF("+750");
+            this.lblrewardNumber=new cc.LabelTTF("+$750");
         }
         if(appDelegate.gameLevel==1)
         {
-            this.lblrewardNumber=new cc.LabelTTF("+1000");
+            this.lblrewardNumber=new cc.LabelTTF("+$1000");
         }
         
         this.lblrewardNumber.setFontSize(70);
-        this.lblrewardNumber.setPosition(this.imgGoldCoin.getPositionX()+this.imgBackground.getScaleX()*90,this.imgGoldCoin.getPositionY());
+        this.lblrewardNumber.setPosition(this.imgGoldCoin.getPositionX()+this.imgBackground.getScaleX()*100,this.imgGoldCoin.getPositionY());
         this.lblrewardNumber.setColor(cc.color(255,255,255));
         this.addChild(this.lblrewardNumber,3);
     },
