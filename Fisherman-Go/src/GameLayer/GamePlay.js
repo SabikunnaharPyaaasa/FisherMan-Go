@@ -13,7 +13,21 @@ var GamePlay = cc.Layer.extend({
             ["fish-5"],
             ["fish-6"],
             ["fish-7"],
-        ]
+            [3]//target fish
+        ],
+        [
+            ["bg",0,0],
+            ["bg-3",0,0],
+            ["fisherman",200,10],
+            ["fish-6"],
+            ["fish-7"],
+            ["fish-9"],
+            ["fish-10"],
+            ["fish-11"],
+            ["fish-21"],
+            ["fish-22"],
+            [4]
+        ],
     ],
     
     init:function()
@@ -24,6 +38,11 @@ var GamePlay = cc.Layer.extend({
             this.loadFisherman(); 
             this.setTouchEnable(); 
             //this.loadFishingRod();
+            var appDelegate=AppDelegate.sharedApplication();
+            if(appDelegate.gameLevel==1)
+            {
+                this.showGameLevel();
+            }
             return true;
         }
         return false;
@@ -96,7 +115,7 @@ var GamePlay = cc.Layer.extend({
     {
         var appDelegate=AppDelegate.sharedApplication();
 
-        this.lblFishTarget=new cc.LabelTTF("/3", "Arial");
+        this.lblFishTarget=new cc.LabelTTF(this.targetFish+"/"+this.level[appDelegate.gameLevel][10][0], "Arial");
         this.lblFishTarget.setFontSize(70);
         this.lblFishTarget.setPosition(cc.winSize.width-40*this.imgBackground.getScaleY(),cc.winSize.height/2);
         this.lblFishTarget.setColor(cc.color(0,0,0));
@@ -224,6 +243,16 @@ var GamePlay = cc.Layer.extend({
         this.imgFish5.runAction(fish5_sequence);
      
     },
+
+    showGameLevel:function()
+    {
+        var appDelegate = AppDelegate.sharedApplication();
+        this.lblGameLevel=new cc.LabelTTF("Game Level "+(appDelegate.gameLevel+1), "Arial");
+        this.lblGameLevel.setFontSize(80);
+        this.lblGameLevel.setPosition(cc.winSize.width/2,cc.winSize.height-this.imgBackground.getScaleY()*50);
+        this.lblGameLevel.setColor(cc.color(0,0,0));
+        this.addChild(this.lblGameLevel,3);
+    },
     setTouchEnable: function () {
         cc.eventManager.addListener(
             {
@@ -259,11 +288,13 @@ var GamePlay = cc.Layer.extend({
                     if(this.Fish.getTag()!=0)
                     {
                         this.targetFish = this.targetFish+1;
-                        this.lblFishTarget.setString(this.targetFish+"/3");
+                        this.lblFishTarget.setString(this.targetFish+"/"+this.level[appDelegate.gameLevel][10][0]);
+                        this.rewardNumber(this.Fish.getPositionX(),this.Fish.getPositionY());
                         this.Fish.removeFromParent();
                         this.catchFish(this.imgFishingRod.getPositionX(),this.imgFishingRod.getPositionY());
                         this.Fish.setTag(0);
-                        if(this.targetFish==3)
+                        
+                        if(this.targetFish==this.level[appDelegate.gameLevel][10][0])
                         {
                             this.imgBackground.runAction(cc.Sequence.create(cc.delayTime(.2),cc.MoveBy.create(3,0,-410*this.imgBackground.getScaleY())));
                             this.imgBackground2.runAction(cc.Sequence.create(cc.delayTime(.2),cc.MoveBy.create(3,0,-410*this.imgBackground.getScaleY())));
@@ -285,6 +316,7 @@ var GamePlay = cc.Layer.extend({
 	onTouchMoved:function(touch, event)
 	{
         console.log("Moved");
+        this.imgFishingRod.setPositionX(touch.getLocationX());
         
 	},
 	onTouchEnded:function(touch, event)
@@ -293,14 +325,28 @@ var GamePlay = cc.Layer.extend({
 	},
     catchFish:function(x,y)
     {
-        cc.log(y)
+       
         var appDelegate = AppDelegate.sharedApplication();
-        this.imgCatchFish=cc.Sprite.create(folderGameProducts+"fish-1.png");
+        this.imgCatchFish=cc.Sprite.create(folderGameProducts+this.level[appDelegate.gameLevel][3][0]+".png");
         this.imgCatchFish.setScale(appDelegate.deviceScaleFloat/8);
         this.imgCatchFish.setPosition(x-250*appDelegate.deviceScaleFloat,y-1350*appDelegate.deviceScaleFloat);
         //this.imgFish.setTag(5);
         this.imgFishingRod.addChild(this.imgCatchFish);
         this.imgCatchFish.runAction(cc.RotateTo.create(.01,90));
+    },
+    rewardNumber:function(x,y)
+    {
+        var appDelegate=AppDelegate.sharedApplication();
+
+        this.lblrewardNumber=new cc.LabelTTF("+250");
+        this.lblrewardNumber.setFontSize(70);
+        this.lblrewardNumber.setPosition(x,y);
+        this.lblrewardNumber.setColor(cc.color(0,0,0));
+        this.addChild(this.lblrewardNumber);
+        var action_1 = cc.MoveBy.create(1,-10*this.imgBackground.getScaleX(),100*this.imgBackground.getScaleY());
+        var action_2 = cc.FadeOut.create(.5);
+        var sequence = cc.Sequence.create(action_1,action_2);
+        this.lblrewardNumber.runAction(sequence);
     },
     
 

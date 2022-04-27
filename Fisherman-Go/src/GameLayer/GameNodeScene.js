@@ -36,7 +36,7 @@ var GameNode = cc.Layer.extend({
             // this.preload_resources.push(folderGameResource+"blue-spark.png");
             // this.preload_resources.push(folderGameResource+"green-spark.png");
             // this.preload_resources.push(folderGameResource+"top.png");
-            for (var i = 1; i < 20; i++) 
+            for (var i = 1; i < 27; i++) 
             {
                 this.preload_resources.push(folderGameProducts+"fish-"+i+".png");
             }
